@@ -30,9 +30,6 @@ class ControlViewModel (private val adapterProvider: BluetoothAdapterProvider): 
         controlManager.disconnect().enqueue()
     }
 
-
-
-
     private val connectionObserver = object : ConnectionObserver {
         override fun onDeviceConnecting(device: BluetoothDevice) {}
 

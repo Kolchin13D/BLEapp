@@ -1,7 +1,6 @@
 package com.example.bleapp.device
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
@@ -12,15 +11,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.bleapp.services.BluetoothAdapterProvider
 
-class DeviceViewModel : ViewModel() {
+class DeviceViewModel (adapterProvider: BluetoothAdapterProvider): ViewModel() {
 
     //(adapterProvider: BluetoothAdapterProvider, private val context: Context)
 
     private val mut_devices: MutableLiveData<List<BluetoothDevice>> = MutableLiveData()
     val devices: LiveData<List<BluetoothDevice>> get() = mut_devices
 
-    private val adapter = BluetoothAdapter.getDefaultAdapter()
+    private val adapter = adapterProvider.getAdapter()
     private var scanner: BluetoothLeScanner? = null
     private var callback: BleScanCallback? = null
 
@@ -95,5 +96,18 @@ class DeviceViewModel : ViewModel() {
             Log.e("TAGGG2", "onScanFailed:  scan error $errorCode")
         }
     }
+}
 
+class DeviceViewModelFactory(
+    private val adapterProvider: BluetoothAdapterProvider
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
+        if (modelClass.isAssignableFrom(DeviceViewModel::class.java)) {
+            return DeviceViewModel(adapterProvider) as T
+        }
+        throw IllegalArgumentException("View Model not found")
+
+        //return super.create(modelClass)
+    }
 }

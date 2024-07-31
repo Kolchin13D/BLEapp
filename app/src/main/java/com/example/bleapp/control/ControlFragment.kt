@@ -18,14 +18,11 @@ class ControlFragment : Fragment() {
         ControlViewModelFactory((requireActivity().application as App).adapterProvider)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentControlBinding.inflate(inflater, container, false)
-
 
         binding.apply {
             //nameDeviceFrag.text = _
@@ -33,6 +30,7 @@ class ControlFragment : Fragment() {
 
         return binding.root
     }
+
 
 
     companion object {

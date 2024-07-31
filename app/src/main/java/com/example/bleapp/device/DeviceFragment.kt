@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapp.R
 import com.example.bleapp.control.ControlFragment
 import com.example.bleapp.databinding.FragmentDevicesBinding
+import com.example.bleapp.services.App
 
 class DeviceFragment : Fragment(), DeviceAdapter.Callback {
 
@@ -24,9 +25,9 @@ class DeviceFragment : Fragment(), DeviceAdapter.Callback {
 
     private val devicesAdapter = DeviceAdapter()
 
-    private val viewModel: DeviceViewModel by viewModels(
-
-    )
+    private val viewModel: DeviceViewModel by viewModels{
+        DeviceViewModelFactory((requireActivity().application as App).adapterProvider)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
